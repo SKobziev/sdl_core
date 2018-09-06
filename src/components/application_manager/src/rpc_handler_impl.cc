@@ -43,10 +43,6 @@ RPCHandlerImpl::RPCHandlerImpl(ApplicationManager& app_manager)
     : app_manager_(app_manager)
     , messages_from_mobile_("AM FromMobile", this)
     , messages_from_hmi_("AM FromHMI", this)
-    , hmi_so_factory_(hmi_apis::HMI_API())
-    , mobile_so_factory_(mobile_apis::MOBILE_API())
-    , v4_protocol_so_factory_(
-          ns_smart_device_link_rpc::V1::v4_protocol_v1_2_no_extra())
 #ifdef TELEMETRY_MONITOR
     , metric_observer_(NULL)
 #endif  // TELEMETRY_MONITOR
@@ -263,7 +259,8 @@ bool RPCHandlerImpl::ConvertMessageToSO(
       }
 
       if (!conversion_result ||
-          !mobile_so_factory().attachSchema(output, true, msg_version) ||
+          !app_manager_.mobile_so_factory().attachSchema(
+              output, true, msg_version) ||
           ((output.validate(&report, msg_version) !=
             smart_objects::errors::OK))) {
         LOG4CXX_WARN(logger_,
@@ -324,7 +321,7 @@ bool RPCHandlerImpl::ConvertMessageToSO(
                     "Convertion result: "
                         << result << " function id "
                         << output[jhs::S_PARAMS][jhs::S_FUNCTION_ID].asInt());
-      if (!hmi_so_factory().attachSchema(output, false)) {
+      if (!app_manager_.hmi_so_factory().attachSchema(output, false)) {
         LOG4CXX_WARN(logger_, "Failed to attach schema to object.");
         return false;
       }
@@ -415,14 +412,6 @@ std::shared_ptr<Message> RPCHandlerImpl::ConvertRawMsgToMessage(
     LOG4CXX_ERROR(logger_, "Received invalid message");
   }
   return outgoing_message;
-}
-
-hmi_apis::HMI_API& RPCHandlerImpl::hmi_so_factory() {
-  return hmi_so_factory_;
-}
-
-mobile_apis::MOBILE_API& RPCHandlerImpl::mobile_so_factory() {
-  return mobile_so_factory_;
 }
 }
 }

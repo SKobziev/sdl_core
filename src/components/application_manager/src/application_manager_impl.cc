@@ -3374,6 +3374,14 @@ ApplicationManagerImpl::SupportedSDLVersion() const {
       get_settings().max_supported_protocol_version());
 }
 
+hmi_apis::HMI_API& ApplicationManagerImpl::hmi_so_factory() const {
+  return *hmi_so_factory_;
+}
+
+mobile_apis::MOBILE_API& ApplicationManagerImpl::mobile_so_factory() const {
+  return *mobile_so_factory_;
+}
+
 event_engine::EventDispatcher& ApplicationManagerImpl::event_dispatcher() {
   return event_dispatcher_;
 }

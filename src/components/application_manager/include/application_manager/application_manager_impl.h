@@ -1036,6 +1036,18 @@ class ApplicationManagerImpl
    */
   protocol_handler::MajorProtocolVersion SupportedSDLVersion() const OVERRIDE;
 
+  /**
+   * @brief Function returns reference to HMI factory instance.
+   * @return Reference to HMI factory instance.
+   */
+  hmi_apis::HMI_API& hmi_so_factory() const OVERRIDE;
+
+  /**
+   * @brief Function returns reference to MOBILE factory instance.
+   * @return Reference to MOBILE factory instance.
+   */
+  mobile_apis::MOBILE_API& mobile_so_factory() const OVERRIDE;
+
  private:
   /**
    * @brief PullLanguagesInfo allows to pull information about languages.
