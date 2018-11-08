@@ -44,10 +44,13 @@ if(QNXNTO)
   )
 endif()
 
-find_package(Boost 1.66 COMPONENTS system thread REQUIRED)	
-
 if(ENABLE_LOG)
+  SDL_find_package(apr REQUIRED)
+  SDL_find_package(apr-util REQUIRED)
+  SDL_find_package(log4cxx REQUIRED)
+
   find_package(EXPAT REQUIRED)
+  find_package(Boost 1.66 COMPONENTS system thread REQUIRED)
 
   target_sources(${PROJECT_NAME}
     PRIVATE
@@ -59,10 +62,10 @@ if(ENABLE_LOG)
   )
   target_link_libraries(${PROJECT_NAME}
     PUBLIC
-      libapr-1.so
-      libaprutil-1.so
-      log4cxx
-      EXPAT::EXPAT
+      apr::apr
+      apr-util::apr-util
+      log4cxx::log4cxx
+      expat
       config_profile::config_profile
       Boost::boost
       Boost::system
