@@ -198,5 +198,7 @@ install(
   COMPONENT sdl_core
 )
 
-
+if(BUILD_TESTS)
+  add_subdirectory(test)
+endif()
 

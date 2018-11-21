@@ -53,6 +53,13 @@ target_sources(${PROJECT_NAME}
     "${CMAKE_CURRENT_LIST_DIR}/src/transport_adapter/transport_adapter_listener_impl.cc"
 )
 
+if(BUILD_TESTS)
+  target_sources(${PROJECT_NAME}
+    PRIVATE
+      "${CMAKE_CURRENT_LIST_DIR}/src/iap2_emulation/iap2_transport_adapter.cc"
+  )
+endif()
+
 if(QNXNTO)
   target_sources(${PROJECT_NAME}
     PRIVATE
